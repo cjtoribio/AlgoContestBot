@@ -1,0 +1,16 @@
+{
+  "name": "algo-contest-bot",
+  "version": "0.1.0",
+  "description": "AlgoContestBot notifies you about upcoming algorithmic programming contests.",
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node bot.js"
+  },
+  "author": "cdemirer",
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "git+https://github.com/discordjs/discord.js.git#5268320",
+    "snekfetch": "^4.0.4"
+  }
+}
