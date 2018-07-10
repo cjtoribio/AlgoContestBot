@@ -1,11 +1,8 @@
 const fs = require('fs');
-const sf = require('snekfetch');
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const { token } = JSON.parse(fs.readFileSync(__dirname + '/auth.json', 'utf8'));
 const Utils = require(__dirname + '/utils/utils.js');
-
-
 
 if ( ! fs.existsSync(__dirname + '/config.json')) {
 	fs.writeFileSync(__dirname + '/config.json', JSON.stringify({
@@ -23,91 +20,20 @@ if ( ! fs.existsSync(__dirname + '/persist.json')) {
 	}, null, 2));
 }
 const Persist = JSON.parse(fs.readFileSync(__dirname + '/persist.json', 'utf8'));
-function savePersist() {
+const savePersist = () => {
 	fs.writeFileSync(__dirname + '/persist.json', JSON.stringify(Persist, null, 2));
 }
+global.dirname = __dirname;
+global.client = client;
+global.Persist = Persist;
+global.savePersist = savePersist;
 
-
-
-const tellEveryone = (str) => {
-	client.guilds.array().forEach(guild => {
-		if ( ! Persist.ready[guild.id]) return;
-		let channelID = Persist.channel[guild.id];
-		let channel = guild.channels.get(channelID);
-		if ( ! channel.permissionsFor(client.user).has('SEND_MESSAGES')) return;
-		channel.send(str);
-	});
-}
-const notify = (id, name, url, time, rtime, type) => {
-	client.guilds.filter(guild => {
-		if ( ! Persist.cf[guild.id]) Persist.cf[guild.id] = {};
-		if ( ! Persist.cf[guild.id][type]) Persist.cf[guild.id][type] = [];
-		return Persist.cf[guild.id][type].indexOf(id) < 0;
-	}).array().forEach(guild => {
-		if ( ! Persist.ready[guild.id]) return;
-		let channelID = Persist.channel[guild.id];
-		let channel = guild.channels.get(channelID);
-		if ( !channel || ! channel.permissionsFor(client.user).has('SEND_MESSAGES')) return;
-		channel.send({embed: {
-			author: {
-				name: client.user.username,
-				icon_url: client.user.displayAvatarURL()
-			},
-			title: name,
-			url: url,
-			description: `Attention! ${Utils.formatDuration(rtime)} before start`,
-			footer: {text: `Starts at: ${new Date(time*1000).toGMTString()}`}
-		}});
-		Persist.cf[guild.id][type].push(id);
-		savePersist();
-	});
-}
-
-
-
-let codeforcesList = [];
-const codeforcesNotify = () => {
-	codeforcesList.forEach(obj => {
-		let rtime = -obj.relativeTimeSeconds;
-		if (rtime <= 2*60*60) {
-			notify(obj.id, obj.name, `https://codeforces.com/contests/${obj.id}`, obj.startTimeSeconds, rtime, 2);
-		} else if (rtime <= 24*60*60) {
-			notify(obj.id, obj.name, `https://codeforces.com/contests/${obj.id}`, obj.startTimeSeconds, rtime, 24);
-		} else if (rtime <= 2*24*60*60) {
-			notify(obj.id, obj.name, `https://codeforces.com/contests/${obj.id}`, obj.startTimeSeconds, rtime, 48);
-		}
-	});
-}
-let codeforcesFetchErrorTolerance = 5;
-const codeforcesFetch = () => {
-	sf.get('http://codeforces.com/api/contest.list')
-	.then(res => {
-		if (res.body.status === 'OK') {
-			codeforcesList = res.body.result.filter(obj => obj.phase === 'BEFORE');
-			codeforcesNotify();
-			if (codeforcesFetchErrorTolerance <= 0) {
-				tellEveryone("CodeForces API works again.");
-			}
-			codeforcesFetchErrorTolerance = 5;
-		} else {
-			codeforcesFetchErrorTolerance--;
-			if (codeforcesFetchErrorTolerance === 0) {
-				tellEveryone("CodeForces API isn't accessible at the moment. Please check other sources until it works again.");
-			}
-		}
-	}).catch(err => {
-		codeforcesFetchErrorTolerance--;
-		if (codeforcesFetchErrorTolerance === 0) {
-			tellEveryone("CodeForces API isn't accessible at the moment. Please check other sources until it works again.");
-		}
-	});
-	setTimeout(codeforcesFetch, 1000*(60-new Date().getSeconds()));
-}
+const CodeForces = require(__dirname + '/codeforces/codeforces.js');
 
 
 client.on('ready', () => {
 	console.log('Started running: ' + new Date());
-	codeforcesFetch();
+	CodeForces.fetch();
 });
 client.on('message', msg => {
 
@@ -126,7 +52,7 @@ client.on('message', msg => {
 	let is = Utils.istream(commandPart);
 	let cmd = Utils.consume(is);
 	if (cmd === 'help') {
-		if (!Utils.isend(is)) {
+		if ( ! Utils.isend(is)) {
 			if ( ! msg.channel.permissionsFor(client.user).has('SEND_MESSAGES')) return;
 			msg.reply('Usage: help');
 		} else {
@@ -153,7 +79,7 @@ client.on('message', msg => {
 			}});
 		}
 	} else if (cmd === 'setChannel') {
-		if (!Utils.isend(is)) {
+		if ( ! Utils.isend(is)) {
 			if ( ! msg.channel.permissionsFor(client.user).has('SEND_MESSAGES')) return;
 			msg.reply('Usage: setChannel');
 		}
