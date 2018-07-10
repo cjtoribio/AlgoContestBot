@@ -1,5 +1,5 @@
 
-# AlgoContestBot v0.2.0
+# AlgoContestBot v0.2.1
 
 ## About
 AlgoContestBot notifies you about upcoming algorithmic programming contests.
@@ -10,6 +10,7 @@ After the notification channel is set, the bot will notify you **48**, **24** an
 * [CSAcademy](https://csacademy.com)
 * [CodeChef](https://codechef.com)
 * [HackerEarth](https://hackerearth.com)
+* [TopCoder](https://topcoder.com)
 
 This bot uses [CodeForces API](http://codeforces.com/api/help) and [clist.by API](https://clist.by/api/v1/doc/).
 
