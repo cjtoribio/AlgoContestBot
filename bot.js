@@ -38,6 +38,7 @@ client.on('ready', () => {
 	Clistby.fetch('csacademy.com');
 	Clistby.fetch('codechef.com');
 	Clistby.fetch('hackerearth.com');
+	Clistby.fetch('topcoder.com');
 });
 client.on('message', msg => {
 
@@ -77,7 +78,7 @@ client.on('message', msg => {
 					},
 					{
 						name: `Currently supported contest platforms:`,
-						value: `CodeForces\nHackerRank\nCSAcademy\nCodeChef\nHackerEarth`
+						value: `CodeForces\nHackerRank\nCSAcademy\nCodeChef\nHackerEarth\nTopCoder`
 					}
 				]
 			}});
