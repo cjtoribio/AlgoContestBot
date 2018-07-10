@@ -11,6 +11,8 @@ After the notification channel is set, the bot will notify you **48**, **24** an
 * [CodeChef](https://codechef.com)
 * [HackerEarth](https://hackerearth.com)
 
+This bot uses [CodeForces API](http://codeforces.com/api/help) and [clist.by API](https://clist.by/api/v1/doc/).
+
 ## Installation
 
 **Node.js version >= 8.0.0 must be installed.**
@@ -26,7 +28,7 @@ Create an `auth.json` file inside the project folder that contains this:
 	"clistbyAPIKey": "your-clist.by-apikey"
 }
 ```
-You will need a clist.by account for the bot to fetch data from clist.by successfully.
+You will need a [clist.by](clist.by) account for the bot to fetch data using [clist.by API](https://clist.by/api/v1/doc/) successfully.
 
 Then run `npm start` inside the project folder.
 
