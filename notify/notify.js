@@ -11,14 +11,15 @@ const tellEveryone = (str) => {
 		channel.send(str);
 	});
 }
-const notify = (id, name, url, time, rtime, type) => {
+const notify = (res, id, name, url, startTime, rtime, type) => {
 	const client = global.client;
 	const Persist = global.Persist;
 	const savePersist = global.savePersist;
 	client.guilds.filter(guild => {
-		if ( ! Persist.cf[guild.id]) Persist.cf[guild.id] = {};
-		if ( ! Persist.cf[guild.id][type]) Persist.cf[guild.id][type] = [];
-		return Persist.cf[guild.id][type].indexOf(id) < 0;
+		if ( ! Persist[res]) Persist[res] = {};
+		if ( ! Persist[res][guild.id]) Persist[res][guild.id] = {};
+		if ( ! Persist[res][guild.id][type]) Persist[res][guild.id][type] = [];
+		return Persist[res][guild.id][type].indexOf(id) < 0;
 	}).array().forEach(guild => {
 		if ( ! Persist.ready[guild.id]) return;
 		const channelID = Persist.channel[guild.id];
@@ -32,9 +33,9 @@ const notify = (id, name, url, time, rtime, type) => {
 			title: name,
 			url: url,
 			description: `Attention! ${Utils.formatDuration(rtime)} before start`,
-			footer: {text: `Starts at: ${new Date(time*1000).toGMTString()}`}
+			footer: {text: `${res} | Starts at: ${startTime.toGMTString()}`}
 		}});
-		Persist.cf[guild.id][type].push(id);
+		Persist[res][guild.id][type].push(id);
 		savePersist();
 	});
 }

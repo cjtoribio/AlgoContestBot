@@ -14,7 +14,6 @@ const Config = JSON.parse(fs.readFileSync(__dirname + '/config.json', 'utf8'));
 
 if ( ! fs.existsSync(__dirname + '/persist.json')) {
 	fs.writeFileSync(__dirname + '/persist.json', JSON.stringify({
-		cf: {},
 		ready: {},
 		channel: {}
 	}, null, 2));
@@ -29,11 +28,16 @@ global.Persist = Persist;
 global.savePersist = savePersist;
 
 const CodeForces = require(__dirname + '/codeforces/codeforces.js');
+const Clistby = require(__dirname + '/clistby/clistby.js');
 
 
 client.on('ready', () => {
 	console.log('Started running: ' + new Date());
 	CodeForces.fetch();
+	Clistby.fetch('hackerrank.com');
+	Clistby.fetch('csacademy.com');
+	Clistby.fetch('codechef.com');
+	Clistby.fetch('hackerearth.com');
 });
 client.on('message', msg => {
 
@@ -73,7 +77,7 @@ client.on('message', msg => {
 					},
 					{
 						name: `Currently supported contest platforms:`,
-						value: `CodeForces`
+						value: `CodeForces\nHackerRank\nCSAcademy\nCodeChef\nHackerEarth`
 					}
 				]
 			}});

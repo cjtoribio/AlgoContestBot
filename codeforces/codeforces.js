@@ -2,15 +2,16 @@ const sf = require('snekfetch');
 const Notify = require(global.dirname + '/notify/notify.js');
 
 let list = [];
-const doNotify = () => {
+const doNotify = (res) => {
 	list.forEach(obj => {
+		const startTime = new Date(parseInt(obj.startTimeSeconds)*1000);
 		const rtime = -obj.relativeTimeSeconds;
 		if (rtime <= 2*60*60) {
-			Notify.notify(obj.id, obj.name, `https://codeforces.com/contests/${obj.id}`, obj.startTimeSeconds, rtime, 2);
+			Notify.notify(res, obj.id, obj.name, `https://codeforces.com/contests/${obj.id}`, startTime, rtime, 2);
 		} else if (rtime <= 24*60*60) {
-			Notify.notify(obj.id, obj.name, `https://codeforces.com/contests/${obj.id}`, obj.startTimeSeconds, rtime, 24);
-		} else if (rtime <= 4*24*60*60) {
-			Notify.notify(obj.id, obj.name, `https://codeforces.com/contests/${obj.id}`, obj.startTimeSeconds, rtime, 48);
+			Notify.notify(res, obj.id, obj.name, `https://codeforces.com/contests/${obj.id}`, startTime, rtime, 24);
+		} else if (rtime <= 2*24*60*60) {
+			Notify.notify(res, obj.id, obj.name, `https://codeforces.com/contests/${obj.id}`, startTime, rtime, 48);
 		}
 	});
 }
@@ -24,7 +25,7 @@ const fetch = () => {
 				Notify.tellEveryone("CodeForces API works again.");
 			}
 			errorTolerance = 5;
-			doNotify();
+			doNotify('codeforces.com');
 		} else {
 			errorTolerance--;
 			if (errorTolerance === 0) {
