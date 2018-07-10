@@ -1,5 +1,5 @@
 
-# AlgoContestBot v0.1.0
+# AlgoContestBot v0.2.0
 
 ## About
 AlgoContestBot notifies you about upcoming algorithmic programming contests.
