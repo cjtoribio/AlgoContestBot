@@ -26,3 +26,6 @@ If you want to `eval` commands, fill in your Discord User ID as value for `owner
 
 #### How to set the notification channel?
 Someone with `ADMINISTRATOR` permission must use the `_setChannel` command on the desired channel.
+
+## Contributing
+Please branch from and issue pull requests to `develop` branch.
