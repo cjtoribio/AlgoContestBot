@@ -20,7 +20,7 @@ const doNotify = (res, list) => {
 		}
 	});
 }
-let errorTolerance = 5;
+let errorTolerance = 60;
 const fetch = (resourceName) => {
 	if ( ! clistbyUsername || ! clistbyAPIKey) {
 		console.log("Can't access clist.by resources due to absence of username and/or apikey in auth.json");
@@ -40,7 +40,7 @@ const fetch = (resourceName) => {
 			if (errorTolerance <= 0) {
 				Notify.tellEveryone("clist.by API works again.");
 			}
-			errorTolerance = 5;
+			errorTolerance = 60;
 			doNotify(resourceName, list);
 		} else {
 			errorTolerance--;
