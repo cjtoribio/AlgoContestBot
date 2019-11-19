@@ -13,10 +13,10 @@ const doNotify = (res, list) => {
 		const rtime = (startTime.getTime() - new Date().getTime()) / 1000;
 		if (rtime <= 2*60*60) {
 			Notify.notify(res, obj.id, obj.event, obj.href, startTime, rtime, 2);
+		} else if (rtime <= 12*60*60) {
+			Notify.notify(res, obj.id, obj.event, obj.href, startTime, rtime, 12);
 		} else if (rtime <= 24*60*60) {
 			Notify.notify(res, obj.id, obj.event, obj.href, startTime, rtime, 24);
-		} else if (rtime <= 2*24*60*60) {
-			Notify.notify(res, obj.id, obj.event, obj.href, startTime, rtime, 48);
 		}
 	});
 }
