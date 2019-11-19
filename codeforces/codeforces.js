@@ -9,9 +9,9 @@ const doNotify = (res) => {
 		if (rtime <= 2*60*60) {
 			Notify.notify(res, obj.id, obj.name, `https://codeforces.com/contests/${obj.id}`, startTime, rtime, 2);
 		} else if (rtime <= 24*60*60) {
-			Notify.notify(res, obj.id, obj.name, `https://codeforces.com/contests/${obj.id}`, startTime, rtime, 24);
+			Notify.notify(res, obj.id, obj.name, `https://codeforces.com/contests/${obj.id}`, startTime, rtime, 12);
 		} else if (rtime <= 2*24*60*60) {
-			Notify.notify(res, obj.id, obj.name, `https://codeforces.com/contests/${obj.id}`, startTime, rtime, 48);
+			// Notify.notify(res, obj.id, obj.name, `https://codeforces.com/contests/${obj.id}`, startTime, rtime, 48);
 		}
 	});
 }

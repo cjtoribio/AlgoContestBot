@@ -34,17 +34,19 @@ const Clistby = require(__dirname + '/clistby/clistby.js');
 client.on('ready', () => {
 	console.log('Started running: ' + new Date());
 	CodeForces.fetch();
-	Clistby.fetch('hackerrank.com');
+	// Clistby.fetch('hackerrank.com');
 	Clistby.fetch('csacademy.com');
-	Clistby.fetch('codechef.com');
-	Clistby.fetch('hackerearth.com');
-	Clistby.fetch('topcoder.com');
+	Clistby.fetch('atcoder.jp');
+	// Clistby.fetch('codechef.com');
+	// Clistby.fetch('hackerearth.com');
+	// Clistby.fetch('topcoder.com');
 });
 client.on('message', msg => {
 
 	if ( ! msg.content.startsWith(Config.prefix)) return;
 	let commandPart = msg.content.substring(Config.prefix.length);
 	if (msg.channel.type === 'dm') {
+		console.log(msg.author.id);
 		if (msg.author.id !== Config.owner) return;
 		try {
 			eval(commandPart.substring(4));

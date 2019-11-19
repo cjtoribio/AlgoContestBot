@@ -33,7 +33,7 @@ const notify = (res, id, name, url, startTime, rtime, type) => {
 			title: name,
 			url: url,
 			description: `Attention! ${Utils.formatDuration(rtime)} before start`,
-			footer: {text: `${res} | Starts at: ${startTime.toGMTString()}`}
+			footer: {text: `${res} | Starts at: ${new Date(startTime.getTime() - 4 * 3600 * 1000).toLocaleString('en-US')}`}
 		}});
 		Persist[res][guild.id][type].push(id);
 		savePersist();
