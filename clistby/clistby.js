@@ -13,14 +13,14 @@ const doNotify = (res, list) => {
 		const rtime = (startTime.getTime() - new Date().getTime()) / 1000;
 		if (rtime <= 2*60*60) {
 			Notify.notify(res, obj.id, obj.event, obj.href, startTime, rtime, 2);
+		} else if (rtime <= 12*60*60) {
+			Notify.notify(res, obj.id, obj.event, obj.href, startTime, rtime, 12);
 		} else if (rtime <= 24*60*60) {
 			Notify.notify(res, obj.id, obj.event, obj.href, startTime, rtime, 24);
-		} else if (rtime <= 2*24*60*60) {
-			Notify.notify(res, obj.id, obj.event, obj.href, startTime, rtime, 48);
 		}
 	});
 }
-let errorTolerance = 5;
+let errorTolerance = 60;
 const fetch = (resourceName) => {
 	if ( ! clistbyUsername || ! clistbyAPIKey) {
 		console.log("Can't access clist.by resources due to absence of username and/or apikey in auth.json");
@@ -40,7 +40,7 @@ const fetch = (resourceName) => {
 			if (errorTolerance <= 0) {
 				Notify.tellEveryone("clist.by API works again.");
 			}
-			errorTolerance = 5;
+			errorTolerance = 60;
 			doNotify(resourceName, list);
 		} else {
 			errorTolerance--;
